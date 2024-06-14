@@ -4,6 +4,13 @@
 	"name": "Coq-with-vscoq-language-server",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "docker.io/tozima/coq-with-vscoq-language-server",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"maximedenes.vscoq"
+			]
+		}
+	},
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
