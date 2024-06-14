@@ -1,11 +1,3 @@
-Example conj: forall P Q: Prop, P -> Q -> P /\ Q.
-Proof.
-    intros P Q PH QH.
-    split.
-    exact PH.
-    exact QH.
-Qed.
-
 Lemma conj_introduction_rule: forall P Q: Prop, P -> Q -> P /\ Q.
 Proof.
     intros P Q HP HQ.
@@ -58,6 +50,16 @@ Proof.
     trivial.
 Qed.
 
+Lemma disj_elimination_rule: forall P Q R: Prop, P \/ Q -> (P -> R) -> (Q -> R) -> R.
+Proof.
+    intros P Q R H1 H2 H3.
+    destruct H1.
+    - apply H2.
+      assumption.
+    - apply H3.
+      assumption.
+Qed.
+
 Ltac Ax := assumption.
 Ltac ConjI := apply conj_introduction_rule.
 Ltac ConjE t := match t with ?p /\ ?q => match goal with |- p => apply conj_elimination_rule1 with (Q := q) | |- q => apply conj_elimination_rule2 with (P := p) end end.
@@ -69,57 +71,22 @@ Ltac NegI := apply negation_introduction_rule; intro.
 Ltac NegE t := apply negation_elimination_rule with (P := t).
 Ltac BotE := apply bottom_elimination_rule.
 Ltac TopI := apply top_introduction_rule.
+Ltac DisjIL := left.
+Ltac DisjIR := right.
+Ltac DisjE t := match t with ?p \/ ?q => apply disj_elimination_rule with (P := p) (Q := q); [> idtac | intro | intro] end.
 
-Example a: forall P Q: Prop, P -> Q -> Q /\ P.
-Proof.
-    intros P Q.
-    ImplI.
-    ImplI.
-    ConjI.
-    Ax.
-    Ax.
-Qed.
 
-Example b: forall P Q: Prop, P /\ Q -> Q /\ P.
-Proof.
-    intros P Q.
-    ImplI.
-    ConjI.
-    ConjEL (P /\ Q).
-    Ax.
-    ConjER (P /\ Q).
-    Ax.
-Qed.
+Parameter D : Set.
 
-Example c: forall P Q R: Prop, (P -> Q) -> (Q -> R) -> (P -> R).
-Proof.
-    intros P Q R.
-    ImplI.
-    ImplI.
-    ImplI.
-    ImplE (Q -> R).
-    Ax.
-    ImplE (P -> Q).
-    Ax.
-    Ax.
-Qed.
+Ltac ForallI := match goal with |- forall _:D, _ => intro x end.
+Ltac ForallE t := generalize t.
 
-Example d: forall P Q: Prop, ~P -> ~(P /\ Q).
-Proof.
-    intros P Q.
-    ImplI.
-    NegI.
-    NegE P.
-    Ax.
-    ConjE (P /\ Q).
-    Ax.
-Qed.
+Ltac ExistsI t := exists t.
+Ltac ExistsE t := match t with exists _:D,_ => let h := fresh in assert t as h; [> idtac | elim h; clear h; intro; intro] end.
 
-Example e: forall P: Prop, False -> P.
-Proof.
-    intros P.
-    ImplI.
-    BotE.
-    Ax.
-Qed.
+
+Axiom double_negation_elimination: forall P: Prop, ~~P -> P.
+
+Ltac RAA := apply double_negation_elimination; intro.
+
 

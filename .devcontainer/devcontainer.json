@@ -8,10 +8,28 @@
 		"vscode": {
 			"extensions": [
 				"maximedenes.vscoq"
-			]
+			],
+			"settings": {
+				"coqtop.binPath" : "/home/opam/.opam/5.1/bin/",
+				"files.exclude": {
+				  "**/*.aux": true,
+				  "**/*.glob": true,
+				  "**/*.vo": true,
+				  "**/*.vos": true,
+				  "**/*.vok": true,
+				  "**/*.html": true,
+				  "**/.*.report": true,
+				  "**/.*.cache": true
+				},
+				"coq.loadCoqProject": true,
+				"coq.coqProjectRoot": ".",
+				"[coq]": {
+				  "editor.tabSize": 2,
+				  "editor.insertSpaces": true
+				}
+			}
 		}
-	},
-
+	}
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
