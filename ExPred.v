@@ -1,42 +1,89 @@
 From InfoMath1 Require Import ProofRules.
 
-Example ex7: forall P : D -> D -> Prop, (exists y:D, forall x:D, P x y) -> forall x:D, exists y:D, P x y.
+Example ex7: forall R : D -> D -> Prop, (exists y:D, forall x:D, R x y) -> forall x:D, exists y:D, R x y.
 Proof.
-    intros P H.
-    ForallI.
-    ExistsE (exists y:D, forall x:D, P x y).
-    - Ax.
-    - ExistsI x0.
-      ForallE x.
-      Ax.
-Qed.
-
-Example ex8: forall P : D -> D -> Prop, (forall x y:D, P x y) -> forall z:D, P z z.
-Proof.
-  intros P.
-  ImplI.
-  ForallI_with z.
-  ForallE_with z (forall y:D, P z y).
-  ForallE z.
-  Ax.
-Qed.
-
-Example forall_three: forall P : D -> D -> D -> Prop, (forall x y z: D, P x y z) -> forall z:D, P z z z.
-Proof.
-  intros P.
+  intros R.
   Admitted.
 
-
-Example forall1: forall P : D -> Prop, forall Q: Prop, ((forall x:D, P x) /\ Q) -> forall x:D, (P x /\ Q).
+Example ex8: forall R : D -> D -> Prop, (forall x y:D, R x y) -> forall z:D, R z z.
 Proof.
-  intros P Q.
+  intros R.
   Admitted.
 
-Example forall2: forall P : D -> Prop, forall Q: Prop, (forall x:D, (P x /\ Q)) -> (forall x:D, P x) /\ Q.
+Example forall_three: forall R : D -> D -> D -> Prop, (forall x y z: D, R x y z) -> forall z:D, R z z z.
+Proof.
+  intros R.
+  Admitted.
+
+Example forall1: forall R : D -> Prop, forall Q: Prop, ((forall x:D, R x) /\ Q) -> forall x:D, (R x /\ Q).
+Proof.
+  intros R Q.
+  Admitted.
+
+Example forall2: forall R : D -> Prop, forall Q: Prop, (forall x:D, (R x /\ Q)) -> (forall x:D, R x) /\ Q.
 Proof.
   Admitted.
 
-Example forall3: forall P : D -> Prop, forall Q: Prop, ((forall x:D, P x) \/ Q) -> forall x:D, (P x \/ Q).
+Example forall3: forall R : D -> Prop, forall Q: Prop, ((forall x:D, R x) \/ Q) -> forall x:D, (R x \/ Q).
 Proof.
-  intros P Q.
-  
+  intros R Q.
+  Admitted.
+
+Example de_morgan1: forall R : D -> Prop, (forall x:D, ~(R x)) -> ~(exists x:D, R x).
+  intros R.
+  Admitted.
+
+Example de_morgan2: forall R : D -> Prop, (exists x:D, ~(R x)) -> ~(forall x:D, R x).
+  intros R.
+  Admitted.
+
+Example de_morgan3: forall R : D -> Prop, ~(exists x:D, R x) -> forall x:D, ~(R x).
+Proof.
+  intros R.
+  Admitted.
+
+Example ex_b01: forall R T : D -> Prop, (forall x:D, R x -> T x) -> (forall x:D, R x) -> (forall x:D, T x).
+Proof.
+  intros R T.
+  Admitted.
+
+Example ex_b02: forall R T : D -> Prop, (forall x:D, R x -> T x) -> (exists x:D, R x) -> (exists x:D, T x).
+Proof.
+  intros R T.
+  Admitted.
+
+Example ex_b03: forall R : D -> Prop, (forall x:D, R x \/ ~ (R x)) -> ~~(forall x:D, R x) -> forall x:D, R x.
+Proof.
+  intros R.
+  Admitted.
+
+Example ex_b04: forall R : D -> Prop, ~~(forall x:D, R x) -> forall x:D, ~~(R x).
+Proof.
+  intros R.
+  Admitted.
+
+
+(*
+ * The following propositions cannot be proved in the intuitionistic system
+     - So RAA rule is nedded.
+     - One can use the low of excluded middle or double negation elimination instead of RAA.
+ *)
+
+Example ex_c01: forall R : D -> Prop, ~~(forall x:D, (R x) \/ ~(R x)).
+Proof.
+  intros R.
+  Admitted.
+
+Example ex_c02: forall R : D -> Prop, (forall x:D, ~~(R x)) -> ~~(forall x:D, R x).
+Proof.
+  intros R.
+  Admitted.
+
+Example de_morgan4: forall R : D -> Prop, ~(forall x:D, R x) -> exists x:D, ~(R x).
+  intros R.
+  Admitted.
+
+Example forall4: forall R : D -> Prop, forall Q: Prop, (forall x:D, (R x \/ Q)) -> ((forall x:D, R x) \/ Q).
+Proof.
+  intros R Q.
+  Admitted.

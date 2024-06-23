@@ -62,30 +62,90 @@ Qed.
 
 Ltac Ax := assumption.
 Ltac ConjI := apply conj_introduction_rule.
-Ltac ConjE t := match t with ?p /\ ?q => match goal with |- p => apply conj_elimination_rule1 with (Q := q) | |- q => apply conj_elimination_rule2 with (P := p) end end.
-Ltac ConjER t := match t with ?p /\ ?q => match goal with |- p => apply conj_elimination_rule1 with (Q := q) end end.
-Ltac ConjEL t := match t with ?p /\ ?q => match goal with |- q => apply conj_elimination_rule2 with (P := p) end end.
+Ltac ConjE t :=
+    match t with 
+    | ?p /\ ?q => 
+        match goal with
+        | |- p => apply conj_elimination_rule1 with (Q := q)
+        | |- q => apply conj_elimination_rule2 with (P := p)
+        end
+    end.
+Ltac ConjER t :=
+    match t with
+    | ?p /\ ?q =>
+        match goal with
+        | |- p => apply conj_elimination_rule1 with (Q := q)
+        end
+    end.
+Ltac ConjEL t :=
+    match t with
+    | ?p /\ ?q =>
+        match goal with
+        | |- q =>
+            apply conj_elimination_rule2 with (P := p)
+        end
+    end.
 Ltac ImplI := intro.
-Ltac ImplE t :=  match t with (?s1 -> ?s2) => apply impl_elimination_rule with (P := s1) (Q := s2) end.
+Ltac ImplE t :=
+    match t with
+    | (?s1 -> ?s2) =>
+        apply impl_elimination_rule with (P := s1) (Q := s2)
+    end.
 Ltac NegI := apply negation_introduction_rule; intro.
-Ltac NegE t := match t with ~?p => apply negation_elimination_rule with (P := p) end.
+Ltac NegE t :=
+    match t with
+    | ~?p =>
+        apply negation_elimination_rule with (P := p)
+    end.
 Ltac BotE := apply bottom_elimination_rule.
 Ltac TopI := apply top_introduction_rule.
 Ltac DisjIL := left.
 Ltac DisjIR := right.
-Ltac DisjE t := match t with ?p \/ ?q => apply disj_elimination_rule with (P := p) (Q := q); [> idtac | intro | intro] end.
+Ltac DisjE t :=
+    match t with
+    | ?p \/ ?q =>
+        match goal with
+        | |- ?r =>
+            apply disj_elimination_rule with (P := p) (Q := q) (R := r);
+            [> idtac | intro | intro]
+        end
+    end.
 
 
 Parameter D : Set.
 
-Ltac ForallI := match goal with |- forall _:D, _ => intro end.
-Ltac ForallI_with x := match goal with |- forall _:D, _ => intro x end.
+Ltac ForallI :=
+    match goal with
+    | |- forall _:D, _ => intro
+    end.
+Ltac ForallI_with x :=
+    match goal with
+    | |- forall _:D, _ => intro x
+    end.
 Ltac ForallE t := generalize t.
-Ltac ForallE_with t p := match p with forall _:D, _ => let h := fresh in assert p as h; [> idtac | apply h; fail] end.
+Ltac ForallE_with t p :=
+    match p with
+    | forall _:D, _ =>
+        let h := fresh in
+            assert p as h;
+            [> idtac | apply h; fail]
+    end.
 
 Ltac ExistsI t := exists t.
-Ltac ExistsE t := match t with exists _:D,_ => let h := fresh in assert t as h; [> idtac | elim h; clear h; intro; intro] end.
-Ltac ExistsE_with t x := match t with exists _:D,_ => let h := fresh in assert t as h; [> idtac | elim h; clear h; intro x; intro] end.
+Ltac ExistsE t :=
+    match t with
+    | exists _:D,_ =>
+        let h := fresh in
+            assert t as h;
+            [> idtac | elim h; clear h; intro; intro]
+    end.
+Ltac ExistsE_with t x :=
+    match t with
+    | exists _:D,_ =>
+        let h := fresh in
+            assert t as h;
+            [> idtac | elim h; clear h; intro x; intro]
+    end.
 
 
 Axiom double_negation_elimination: forall P: Prop, ~~P -> P.
