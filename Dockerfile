@@ -1,9 +1,12 @@
 # syntax=docker/dockerfile:1
-FROM ocaml/opam:ubuntu-ocaml-5.1
+
+# We use OCaml 4.14 as OCaml 5 + ocamlfind has a problem with Coq/Rocq
+# See https://github.com/ocaml/ocamlfind/issues/107
+FROM ocaml/opam:ubuntu-ocaml-4.14
 USER opam:opam
 RUN sudo apt update && sudo apt install -y \
-        libgmp-dev \
- && opam pin add coq 8.18.0 \
+        libgmp-dev pkg-config \
+ && opam pin add coq 8.20.1 \
  && opam install vscoq-language-server \
  && sudo apt clean \
  && sudo rm -rf /var/lib/apt/lists/*
