@@ -3,7 +3,7 @@
 {
 	"name": "Coq-with-vscoq-language-server",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "docker.io/tozima/coq-with-vscoq-language-server",
+	"image": "docker.io/tozima/coq-with-vscoq-language-server:latest",
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -11,6 +11,7 @@
 			],
 			"settings": {
 				"coqtop.binPath" : "/home/opam/.opam/5.1/bin/",
+				"vscoq.proof.mode": 1,
 				"files.exclude": {
 				  "**/*.aux": true,
 				  "**/*.glob": true,
