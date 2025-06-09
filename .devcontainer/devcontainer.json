@@ -7,7 +7,7 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"maximedenes.vscoq"
+				"maximedenes.vscoq@2.2.5"
 			],
 			"settings": {
 				"coqtop.binPath" : "/home/opam/.opam/5.1/bin/",
@@ -27,7 +27,9 @@
 				"[coq]": {
 				  "editor.tabSize": 2,
 				  "editor.insertSpaces": true
-				}
+				},
+				"extensions.autoUpdate": false,
+		        "extensions.autoCheckUpdates": false
 			}
 		}
 	}

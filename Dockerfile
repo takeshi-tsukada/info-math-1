@@ -7,6 +7,7 @@ USER opam:opam
 RUN sudo apt update && sudo apt install -y \
         libgmp-dev pkg-config \
  && opam pin add coq 8.20.1 \
+#  && opam pin add rocq-prover 9.0.0 \
  && opam install vscoq-language-server \
  && sudo apt clean \
  && sudo rm -rf /var/lib/apt/lists/*
